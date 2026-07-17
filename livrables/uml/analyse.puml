@@ -1,0 +1,95 @@
+@startuml analyse.puml
+GestionPartie "1" --> "1 -pioche" Pioche : gère
+GestionPartie "1" --> "1 -défausse" Défausse : gère
+GestionPartie "1" --> "3..* -listeJoueurs" Joueur  : s'applique à >
+
+TasDeCartes <|-- Pioche
+TasDeCartes <|-- Défausse
+
+
+Carte "0..94 -Cartes" <-- "0..1" TasDeCartes : est constitué de <
+
+Carte <|-- Bonus 
+Carte <|-- Chiffre
+Carte <|-- Speciale
+
+Speciale <|-- SecondeChance
+Speciale <|-- Stop
+Speciale <|-- TroisALaSuite
+
+
+
+Carte "0..15 -main" <-- "0..1" Joueur : possède <
+
+
+
+skinparam classAttributeIconSize 0  
+class Joueur {
+    
+    - nom 
+    - nombrePoints 
+    - possedeVie 
+    - enJeu 
+    
+}
+
+class GestionPartie {
+    - limitePoint 
+    
+}
+
+abstract class Carte {
+    - nom  
+    - description  
+    
+}
+
+class Bonus {
+    - valeur 
+    - operande 
+    
+}
+
+class Chiffre {
+    - valeur 
+    
+}
+
+abstract class TasDeCartes {
+    - nbCartes 
+    
+}
+
+abstract class Speciale {
+    
+}
+
+class Stop {
+    
+}
+
+class SecondeChance {
+    
+}
+
+class TroisALaSuite {
+    
+}
+
+class Pioche {
+    
+}
+
+class Défausse {
+    
+}
+
+
+
+
+
+
+
+
+
+@enduml

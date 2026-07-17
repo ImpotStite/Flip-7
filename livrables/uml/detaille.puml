@@ -1,0 +1,137 @@
+@startuml analyse.puml
+GestionPartie "1" --> "1 -pioche" Pioche : gère
+GestionPartie "1" --> "1 -défausse" Défausse : gère
+GestionPartie "1" --> "3..* -listeJoueurs" Joueur  : s'applique à >
+
+TasDeCartes <|-- Pioche
+TasDeCartes <|-- Défausse
+
+
+Carte "0..94 -Cartes" <-- "0..1" TasDeCartes : est constitué de <
+
+Carte <|-- Bonus 
+Carte <|-- Chiffre
+Carte <|-- Speciale
+
+Speciale <|-- SecondeChance
+Speciale <|-- Stop
+Speciale <|-- TroisALaSuite
+
+
+Speciale ..> Joueur : <<uses>>
+Joueur "0..1" --> "0..15 -main" Carte : possède >
+Joueur ..> TasDeCartes : <<uses>>
+Pioche ..> Défausse : <<uses>>
+
+
+note top of Joueur: NOTE: Nous considérons que dans le cadre d'un \n jeu virtuel, il n'y a pas de donneur désigné.
+note bottom of Bonus: NOTE: Les seuls opérandes \n possibles sont "+" et "×".
+
+
+skinparam classAttributeIconSize 0  
+class Joueur {
+    
+    - nom : String
+    - nombrePoints : Int
+    - possedeVie : Boolean
+    - enJeu : Boolean
+
+    <<create>> Joueur(nom : String, nbPoints : Int = 0, vie : Boolean = false, enJeu : Boolean = true)
+    + choixAction(t : TasDeCartes) 
+    + stop()
+    + utiliseCarte(c : Carte)
+    + activeFlip7()
+    + getNom() : String
+    + getPoints() : Int
+    + donneMain() : MutableList<Carte>
+    + viderMain() 
+    - encore(t : TasDeCartes) 
+    - ajouterPointsManche() 
+    - possedeUneVie() : Boolean
+}
+
+class GestionPartie {
+    - limitePoint : Int
+    <<create>> GestionPartie(limitePoint : Int = 200)
+    + getLimitePoint() : Int
+    + update()
+    + lancerPartie()
+    - round()
+}
+
+abstract class Carte {
+    - nom : String
+    - description : String
+    <<create>> Carte(nom : String, desc : String, recto : Image, verso : Image = Image("/assets/imageverso.png"))
+    + getNom() : String
+    + getDescription() : String
+    + getImage() : Image
+}
+
+class Bonus {
+    - valeur : Int
+    - operande : String
+    <<create>> Bonus(nom : String, desc : String, recto : Image, verso : Image = Image("/assets/imageverso.png", valeur : Int, operande : String)
+    + getValeur() : Int
+    + getOperande() : String
+}
+
+class Chiffre {
+    - valeur : Int
+    <<create>> Chiffre(nom : String, desc : String, recto : Image, verso : Image = Image("/assets/imageverso.png"), valeur : Int)
+    + getValeur() : Int
+}
+
+abstract class TasDeCartes {
+    - nbCartes : Int
+    <<create>> TasDeCartes(nbCartes : Int)
+    + getNbCartes() : Int
+}
+
+abstract class Speciale {
+    <<create>> Speciale(nom : String, desc : String, recto : Image, verso : Image = Image("/assets/imageverso.png"))
+    + {abstract} effet (j : Joueur)
+}
+
+class Stop {
+    <<create>> Stop(nom : String, desc : String, recto : Image, verso : Image = Image("/assets/imageverso.png")
+    + effet (j : Joueur)
+}
+
+class SecondeChance {
+    <<create>> SecondeChance(nom : String, desc : String, recto : Image, verso : Image = Image("/assets/imageverso.png")
+    + effet (j : Joueur)
+}
+
+class TroisALaSuite {
+    <<create>> TroisALaSuite(nom : String, desc : String, recto : Image, verso : Image = Image("/assets/imageverso.png")
+    + effet (j : Joueur)
+}
+
+class Pioche {
+    <<create>> Pioche(nbCartes : Int)
+    + preremplir()
+    + remplir(d : Défausse)
+    + piocher() : Carte
+}
+
+class Défausse {
+    <<create>> Défausse(nbCartes : Int)
+    + viderDéfausse() : MutableList<Carte>
+    + jeterCartes(list : MutableList<Carte>)
+}
+
+
+
+package "javafx.scene.image" #ecf6f2 {
+    class Image {
+        + Image(url : String)
+    }
+}
+
+
+Image "1 \n -imageRecto" <-- "0..*" Carte : a pour recto <
+Image "1 \n -imageVerso" <-- "0..*" Carte : a pour verso <
+
+
+@enduml

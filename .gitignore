@@ -1,0 +1,26 @@
+.gradle/
+build/
+.kotlin/
+.idea/workspace.xml
+.idea/shelf/
+.idea/httpRequests/
+.idea/dataSources/
+.idea/dataSources.local.xml
+*.iml
+.vscode/*
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/extensions.json
+.gradle/*
+./gradle/8.10/executionHistory/
+executionHistory.lock
+.gradle/file-system.probe
+.gradle/buildOutputCleanup
+# Fichiers de lancement locaux (gardes en local, non versionnes)
+/run-dev.bat
+.vscode/tasks.json
+.DS_StoreS
+Thumbs.db
+/.idea/
+/.gradle/8.10/
+out/
