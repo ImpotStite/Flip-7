@@ -67,3 +67,5 @@ Vous trouverez dans /src/main/test/kotlin/TestsPartieDeveloppement une classe de
 ## Crédits
 Les images des cartes à jouer ont été créées et partagées par Ethan CAPONE, du groupe 4. 
 
+## Contributeur
+Le projet à été développé par : Macha P., Salomon D., Arthur M. et Matthew H.
